@@ -1,0 +1,39 @@
+SQL> create table course(id int,name varchar(50));
+
+Table created.
+
+SQL> alter table course modify id int primary key;
+
+Table altered.
+
+SQL> desc course;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ ID                                        NOT NULL NUMBER(38)
+ NAME                                               VARCHAR2(50)
+
+SQL> create table student(
+  2  reg_number varchar2(10),
+  3  name varchar2(10),
+  4  age number(5),
+  5  email varchar2(25));
+
+Table created.
+
+SQL> alter table student modify(
+  2  reg_number varchar2(10) primary key,
+  3  name varchar2(10) not null,
+  4  age number(2) check(age>=18),
+  5  email varchar2(25) unique);
+
+Table altered.
+
+SQL> desc student;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ REG_NUMBER                                NOT NULL VARCHAR2(10)
+ NAME                                      NOT NULL VARCHAR2(10)
+ AGE                                                NUMBER(2)
+ EMAIL                                              VARCHAR2(25)
+
+SQL> spool off
