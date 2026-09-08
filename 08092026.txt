@@ -1,0 +1,168 @@
+SQL> create table student
+  2  (
+  3    student_id number(5) primary key,
+  4    student_name varchar2(30),
+  5    department varchar2(20),
+  6    marks number(3)
+  7  );
+create table student
+             *
+ERROR at line 1:
+ORA-00955: name is already used by an existing object 
+
+
+SQL> drop table student;
+
+Table dropped.
+
+SQL> create table student
+  2  (
+  3    student_id number(5) primary key,
+  4    student_name varchar2(30),
+  5    department varchar2(20),
+  6    marks number(3)
+  7  );
+
+Table created.
+
+SQL> insert into student values(101,'arun','cse',85);
+
+1 row created.
+
+SQL> insert into student values(102,'bala','ece',78);
+
+1 row created.
+
+SQL> insert into student values(103,'divya','it',92);
+
+1 row created.
+
+SQL> insert into student values(104,'kavi','cse',88);
+
+1 row created.
+
+SQL> insert into student values(105,'ravi','ece',81);
+
+1 row created.
+
+SQL> insert into student values(106,'suresh','it',95);
+
+1 row created.
+
+SQL> select count(*) as total_students
+  2  from student;
+
+TOTAL_STUDENTS                                                                  
+--------------                                                                  
+             6                                                                  
+
+SQL> select sum(marks) as total_students
+  2  from student;
+
+TOTAL_STUDENTS                                                                  
+--------------                                                                  
+           519                                                                  
+
+SQL> select avg(marks) as total_students
+  2  from student;
+
+TOTAL_STUDENTS                                                                  
+--------------                                                                  
+          86.5                                                                  
+
+SQL> select max(marks) as highest_mark
+  2  from student;
+
+HIGHEST_MARK                                                                    
+------------                                                                    
+          95                                                                    
+
+SQL> select min(marks) as lowest_mark
+  2  from student;
+
+LOWEST_MARK                                                                     
+-----------                                                                     
+         78                                                                     
+
+SQL> select department, avg(marks) as avg_marks
+  2  from student
+  3  group by department;
+
+DEPARTMENT            AVG_MARKS                                                 
+-------------------- ----------                                                 
+cse                        86.5                                                 
+it                         93.5                                                 
+ece                        79.5                                                 
+
+SQL> select department, count(*) as total_students
+  2  from student
+  3  group by department;
+
+DEPARTMENT           TOTAL_STUDENTS                                             
+-------------------- --------------                                             
+cse                               2                                             
+it                                2                                             
+ece                               2                                             
+
+SQL> select department,max(marks) as max_marks
+  2  from student
+  3  group by department;
+
+DEPARTMENT            MAX_MARKS                                                 
+-------------------- ----------                                                 
+cse                          88                                                 
+it                           95                                                 
+ece                          81                                                 
+
+SQL> select department,avg(marks) as avg_marks
+  2  from student
+  3  group by department
+  4  having avg(marks)>85;
+
+DEPARTMENT            AVG_MARKS                                                 
+-------------------- ----------                                                 
+cse                        86.5                                                 
+it                         93.5                                                 
+
+SQL> select department, count(*) as total_students
+  2  from student
+  3  group by department
+  4  having count(*)>1;
+
+DEPARTMENT           TOTAL_STUDENTS                                             
+-------------------- --------------                                             
+cse                               2                                             
+it                                2                                             
+ece                               2                                             
+
+SQL> select department, count(*) as no_of_students,avg(marks) as avg_marks,max(marks) as highest_mark
+  2  from student
+  3  group by department
+  4  having avg(marks)>85;
+
+DEPARTMENT           NO_OF_STUDENTS  AVG_MARKS HIGHEST_MARK                     
+-------------------- -------------- ---------- ------------                     
+cse                               2       86.5           88                     
+it                                2       93.5           95                     
+
+SQL> select*from studenr;
+select*from studenr
+            *
+ERROR at line 1:
+ORA-00942: table or view does not exist 
+
+
+SQL> select * from student;
+
+STUDENT_ID STUDENT_NAME                   DEPARTMENT                MARKS       
+---------- ------------------------------ -------------------- ----------       
+       101 arun                           cse                          85       
+       102 bala                           ece                          78       
+       103 divya                          it                           92       
+       104 kavi                           cse                          88       
+       105 ravi                           ece                          81       
+       106 suresh                         it                           95       
+
+6 rows selected.
+
+SQL> spool off
