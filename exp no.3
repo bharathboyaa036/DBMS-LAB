@@ -1,0 +1,196 @@
+
+SQL*Plus: Release 11.2.0.1.0 Production on Tue Aug 18 14:56:16 2026
+
+Copyright (c) 1982, 2010, Oracle.  All rights reserved.
+
+Enter user-name: A039@db2021
+Enter password:
+
+Connected to:
+Oracle Database 11g Release 11.2.0.1.0 - Production
+
+SQL> desc course15
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ COURSE_ID                                 NOT NULL NUMBER(10)
+ COURSE_NAME                                        CHAR(5)
+
+SQL> desc student15
+ERROR:
+ORA-04043: object student15 does not exist
+
+
+SQL> desc student16
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ REGNO                                              NUMBER(10)
+ NAME                                               VARCHAR2(10)
+ YEAR                                               NUMBER(3)
+ COURSE_ID                                          VARCHAR2(11)
+
+SQL> desc student14
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ REG_NO                                    NOT NULL VARCHAR2(5)
+ NAME                                      NOT NULL VARCHAR2(20)
+ COURSE_ID                                          NUMBER(5)
+ EMAIL                                              VARCHAR2(30)
+ GENDER                                             CHAR(6)
+ AGE                                                NUMBER(3)
+
+SQL> create table student39(
+  2  regno number(10),
+  3  name varchar(15),
+  4  year number(3);
+year number(3)
+             *
+ERROR at line 4:
+ORA-00907: missing right parenthesis
+
+
+SQL> create table student30(
+  2  regno number(10),
+  3  name varchar(15),
+  4  year number(3)'
+  5  course_id varchar(11)
+  6  );
+year number(3)'
+              *
+ERROR at line 4:
+ORA-01756: quoted string not properly terminated
+
+
+SQL> create table student30(
+  2  regno number(10),
+  3  name varchar(15),
+  4  year number(3),
+  5  course_id varchar(11)
+  6  );
+
+Table created.
+
+SQL> desc student30;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ REGNO                                              NUMBER(10)
+ NAME                                               VARCHAR2(15)
+ YEAR                                               NUMBER(3)
+ COURSE_ID                                          VARCHAR2(11)
+
+SQL> desc course;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ COURSE_ID                                 NOT NULL NUMBER(10)
+ COURSE_NAME                               NOT NULL VARCHAR2(30)
+ DURATION                                           VARCHAR2(20)
+
+SQL> insert into student30 values(39,'mouni',1,'101');
+
+1 row created.
+
+SQL> insert into student30 values(395,'dhatri',2,'102');
+
+1 row created.
+
+SQL> insert into student30 values(25,'jyothika',2,'103');
+
+1 row created.
+
+SQL> insert into student30 values(12,'trisha',3,'104');
+
+1 row created.
+
+SQL> select * from student30;
+
+     REGNO NAME                  YEAR COURSE_ID
+---------- --------------- ---------- -----------
+        39 mouni                    1 101
+       395 dhatri                   2 102
+        25 jyothika                 2 103
+        12 trisha                   3 104
+
+SQL> insert into course values(101,'cse');
+insert into course values(101,'cse')
+            *
+ERROR at line 1:
+ORA-00947: not enough values
+
+
+SQL> insert into course values(101,'cse' '1 year);
+ERROR:
+ORA-01756: quoted string not properly terminated
+
+
+SQL> insert into course values(101,'cse' '1 year');
+insert into course values(101,'cse' '1 year')
+                                    *
+ERROR at line 1:
+ORA-00917: missing comma
+
+
+SQL> insert into course values(101,'cse','1 year');
+
+1 row created.
+
+SQL> insert into course values(102,'ece','2 years');
+
+1 row created.
+
+SQL> insert into course values(103,'eee','3 years');
+
+1 row created.
+
+SQL> insert into course values(104,'mech','4 years');
+
+1 row created.
+
+SQL> select * from course;
+
+ COURSE_ID COURSE_NAME                    DURATION
+---------- ------------------------------ --------------------
+       101 cse                            1 year
+       102 ece                            2 years
+       103 eee                            3 years
+       104 mech                           4 years
+
+SQL> select regno,name,couse_name loc from student30,course;
+select regno,name,couse_name loc from student30,course
+                  *
+ERROR at line 1:
+ORA-00904: "COUSE_NAME": invalid identifier
+
+
+SQL> select regno,name,course_name loc from student30,course;
+
+     REGNO NAME            LOC
+---------- --------------- ------------------------------
+        39 mouni           cse
+       395 dhatri          cse
+        25 jyothika        cse
+        12 trisha          cse
+        39 mouni           ece
+       395 dhatri          ece
+        25 jyothika        ece
+        12 trisha          ece
+        39 mouni           eee
+       395 dhatri          eee
+        25 jyothika        eee
+
+     REGNO NAME            LOC
+---------- --------------- ------------------------------
+        12 trisha          eee
+        39 mouni           mech
+       395 dhatri          mech
+        25 jyothika        mech
+        12 trisha          mech
+
+16 rows selected.
+
+SQL> select regno,name,course.course_id loc from student30,course where student30.course_id=course.course_id;
+
+     REGNO NAME                   LOC
+---------- --------------- ----------
+        39 mouni                  101
+       395 dhatri                 102
+        25 jyothika               103
+        12 trisha                 104
