@@ -1,0 +1,126 @@
+SQL> SET SERVEROUTPUT ON;
+SQL> DECLARE
+  2  A NUMBER := 100;
+  3  B NUMBER := 0;
+  4  C NUMBER;
+  5  BEGIN
+  6  C := A / B;
+  7  DBMS_OUTPUT.PUT_LINE('Result = ' || C);
+  8  EXCEPTION
+  9  WHEN ZERO_DIVIDE THEN
+ 10  DBMS_OUTPUT.PUT_LINE('Error: Division by Zero is not allowed.');
+ 11  END;
+ 12  /
+Error: Division by Zero is not allowed.
+
+PL/SQL procedure successfully completed.
+
+SQL> CREATE TABLE STUDE
+  2  (
+  3  STUDENT_ID NUMBER PRIMARY KEY,
+  4  STUDENT_NAME VARCHAR2(30)
+  5  );
+
+Table created.
+SQL> INSERT INTO STUDE VALUES (101,'ARUN');
+
+1 row created.
+
+SQL> COMMIT;
+
+Commit complete.
+
+SQL> SET SERVEROUTPUT ON;
+SQL> DECLARE
+  2  V_NAME STUDE.STUDENT_NAME%TYPE;
+  3  BEGIN
+  4  SELECT STUDENT_NAME
+  5  INTO V_NAME
+  6  FROM STUDE
+  7  WHERE STUDENT_ID = 101;
+  8  DBMS_OUTPUT.PUT_LINE(V_NAME);
+  9  EXCEPTION
+ 10  WHEN NO_DATA_FOUND THEN
+ 11  DBMS_OUTPUT.PUT_LINE('Error: No matching record found.');
+ 12  END;
+ 13   /
+ARUN
+
+PL/SQL procedure successfully completed.
+SQL> SET SERVEROUTPUT ON;
+SQL> DECLARE
+  2  V_NAME STUDE.STUDENT_NAME%TYPE;
+  3  BEGIN
+  4  SELECT STUDENT_NAME
+  5  INTO V_NAME
+  6  FROM STUDE
+  7  WHERE STUDENT_ID = 1;
+  8  DBMS_OUTPUT.PUT_LINE(V_NAME);
+  9  EXCEPTION
+ 10  WHEN NO_DATA_FOUND THEN
+ 11  DBMS_OUTPUT.PUT_LINE('Error: No matching record found.');
+ 12  END;
+ 13   /
+Error: No matching record found.
+
+PL/SQL procedure successfully completed.
+SQL> SET SERVEROUTPUT ON;
+SQL> DECLARE
+  2  V_NAME STUDE.STUDENT_NAME%TYPE;
+  3  BEGIN
+  4  SELECT STUDENT_NAME
+  5  INTO V_NAME
+  6  FROM STUDE;
+  7  DBMS_OUTPUT.PUT_LINE(V_NAME);
+  8  EXCEPTION
+  9  WHEN TOO_MANY_ROWS THEN
+ 10  DBMS_OUTPUT.PUT_LINE('Error: Query returned multiple rows.');
+ 11  END;
+ 12  /
+ARUN
+
+PL/SQL procedure successfully completed.
+
+SQL> SET SERVEROUTPUT ON;
+SQL> BEGIN
+  2  INSERT INTO STUDE VALUES (101,'BALA');
+  3  EXCEPTION
+  4  WHEN DUP_VAL_ON_INDEX THEN
+  5  DBMS_OUTPUT.PUT_LINE('Error: Duplicate value violates unique constraint.');
+  6  END;
+  7  /
+Error: Duplicate value violates unique constraint.
+
+PL/SQL procedure successfully completed.
+SQL> SET SERVEROUTPUT ON;
+SQL> DECLARE
+  2  V_NUM NUMBER(2);
+  3  BEGIN
+  4  V_NUM := 12345;
+  5  EXCEPTION
+  6  WHEN VALUE_ERROR THEN
+  7  DBMS_OUTPUT.PUT_LINE('Error: Value exceeds variable size.');
+  8  END;
+  9  /
+Error: Value exceeds variable size.
+
+PL/SQL procedure successfully completed.
+
+SQL> SET SERVEROUTPUT ON;
+SQL> DECLARE
+  2  V_NUM NUMBER;
+  3  BEGIN
+  4  V_NUM := 10/0;
+  5  EXCEPTION
+  6  WHEN OTHERS THEN
+  7  DBMS_OUTPUT.PUT_LINE('SQLCODE : ' || SQLCODE);
+  8  DBMS_OUTPUT.PUT_LINE('SQLERRM : ' || SQLERRM);
+  9  END;
+ 10  /
+SQLCODE : -1476
+SQLERRM : ORA-01476: divisor is equal to zero
+
+PL/SQL procedure successfully completed.
+
+
+
