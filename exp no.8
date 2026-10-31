@@ -1,0 +1,171 @@
+SQL> CREATE TABLE DEPT
+  2  (
+  3  DEPT_ID NUMBER(3) PRIMARY KEY,
+  4  DEPT_NAME VARCHAR2(30)
+  5  );
+
+Table created.
+
+SQL> INSERT INTO DEPT VALUES (101,'CSE');
+
+1 row created.
+
+SQL> INSERT INTO DEPT VALUES (102,'ECE');
+
+1 row created.
+
+SQL> INSERT INTO DEPT VALUES (103,'IT');
+
+1 row created.
+
+SQL> CREATE TABLE STUDT
+  2  (
+  3  STUDT_ID NUMBER(5) PRIMARY KEY,
+  4  STUDT_NAME VARCHAR2(30),
+  5  MARKS NUMBER(3),
+  6  DEPT_ID NUMBER(3),
+  7  CONSTRAINT FK_DEPT FOREIGN KEY (DEPT_ID)
+  8  REFERENCES DEPT(DEPT_ID)
+  9  );
+
+Table created.
+
+SQL> INSERT INTO STUDT VALUES (1001,'ARUN',85,101);
+
+1 row created.
+
+SQL> INSERT INTO STUDT VALUES (1002,'BALA',78,102);
+
+1 row created.
+
+SQL> INSERT INTO STUDT VALUES (1003,'DIVYA',92,103);
+
+1 row created.
+
+SQL> INSERT INTO STUDT VALUES (1004,'KAVI',88,101);
+
+1 row created.
+  3
+SQL> SELECT S.STUDT_ID, S.STUDT_NAME, D.DEPT_NAME
+  2  FROM STUDT S
+  3  INNER JOIN DEPT D
+  4  ON S.DEPT_ID = D.DEPT_ID;
+
+  STUDT_ID STUDT_NAME                     DEPT_NAME
+---------- ------------------------------ ------------------------------
+      1001 ARUN                           CSE
+      1002 BALA                           ECE
+      1003 DIVYA                          IT
+      1004 KAVI                           CSE
+
+SQL> SELECT S.STUDT_NAME, D.DEPT_NAME
+  2  FROM STUDT S
+  3  LEFT OUTER JOIN DEPT D
+  4  ON S.DEPT_ID = D.DEPT_ID;
+
+STUDT_NAME                     DEPT_NAME
+------------------------------ ------------------------------
+KAVI                           CSE
+ARUN                           CSE
+BALA                           ECE
+DIVYA                          IT
+
+SQL> SELECT S.STUDT_NAME, D.DEPT_NAME
+  2  FROM STUDT S
+  3  RIGHT OUTER JOIN DEPT D
+  4  ON S.DEPT_ID = D.DEPT_ID;
+
+STUDT_NAME                     DEPT_NAME
+------------------------------ ------------------------------
+ARUN                           CSE
+BALA                           ECE
+DIVYA                          IT
+KAVI                           CSE
+
+SQL> SELECT S.STUDT_NAME, D.DEPT_NAME
+  2  FROM STUDT S
+  3  FULL OUTER JOIN DEPT D
+  4  ON S.DEPT_ID = D.DEPT_ID;
+
+STUDT_NAME                     DEPT_NAME
+------------------------------ ------------------------------
+ARUN                           CSE
+BALA                           ECE
+DIVYA                          IT
+KAVI                           CSE
+
+SQL> CREATE TABLE EMPLOYEE
+  2  (
+  3  EMP_ID NUMBER(5) PRIMARY KEY,
+  4  EMP_NAME VARCHAR2(30),
+  5  MANAGER_ID NUMBER(5)
+  6  );
+
+Table created.
+
+SQL> INSERT INTO EMPLOYEE VALUES (1,'RAJ',NULL);
+
+1 row created.
+
+SQL> INSERT INTO EMPLOYEE VALUES (2,'ARUN',1);
+
+1 row created.
+
+SQL> INSERT INTO EMPLOYEE VALUES (3,'BALA',1);
+
+1 row created.
+
+SQL> SELECT E.EMP_NAME EMPLOYEE, M.EMP_NAME MANAGER
+  2  FROM EMPLOYEE E
+  3  LEFT JOIN EMPLOYEE M
+  4  ON E.MANAGER_ID = M.EMP_ID;
+
+EMPLOYEE                       MANAGER
+------------------------------ ------------------------------
+RAJ
+ARUN                           RAJ
+BALA                           RAJ
+
+SQL> SELECT STUDT_NAME, MARKS
+  2  FROM STUDT
+  3  WHERE MARKS >
+  4  (
+  5  SELECT AVG(MARKS)
+  6  FROM STUDT
+  7  );
+
+STUDT_NAME                          MARKS
+------------------------------ ----------
+DIVYA                                  92
+KAVI                                   88
+
+SQL> SELECT STUDT_NAME
+  2  FROM STUDT
+  3  WHERE DEPT_ID IN
+  4  (
+  5  SELECT DEPT_ID
+  6  FROM DEPT
+  7  WHERE DEPT_NAME = 'CSE'
+  8  );
+
+STUDT_NAME
+------------------------------
+ARUN
+KAVI
+
+SQL> SELECT STUDT_NAME, MARKS, DEPT_ID
+  2  FROM STUDT S1
+  3  WHERE MARKS =
+  4  (
+  5  SELECT MAX(MARKS)
+  6  FROM STUDT S2
+  7  WHERE S1.DEPT_ID = S2.DEPT_ID
+  8  );
+
+STUDT_NAME                          MARKS    DEPT_ID
+------------------------------ ---------- ----------
+BALA                                   78        102
+DIVYA                                  92        103
+KAVI                                   88        101
+
+SQL>
